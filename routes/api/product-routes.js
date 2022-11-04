@@ -19,7 +19,9 @@ router.get('/', async (req, res) => {
    
 
 
-// get one product
+// Gets ones product by id 
+// Includes both Category and Tag
+
 router.get('/:id', async (req,res) => {
   try {
       const product = await Product.findByPk(req.params.id, {
@@ -111,7 +113,7 @@ router.put('/:id', (req, res) => {
       res.status(400).json(err);
     });
 });
-
+// Deletes produts by the specific id 
 router.delete('/:id', async (req, res) => {
   try {
     const product = await Product.destroy({

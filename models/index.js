@@ -6,6 +6,7 @@ const ProductTag = require('./ProductTag');
 const { on } = require('events');
 
 // Products belongsTo Category
+// We use Delete on CASCADE to delete all the catergories associated with the product.
 Product.belongsTo(Category, {
   foreignKey: 'category_id',
   onDelete: 'CASCADE',
