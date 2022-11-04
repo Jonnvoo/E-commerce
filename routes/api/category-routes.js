@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { json } = require('stream/consumers');
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
@@ -40,12 +41,39 @@ router.post('/', async (req, res) => {
   
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+router.put('/:id', async (req, res) => {
+  try {
+    const categoryChange = await Category.update(req.body, {
+      where:{
+        id:req.params.id
+      }
+    })
+
+    if (!categoryChange) {
+        return res.status(400).json({message: 'Category not found!'})
+     }
+
+    res.status(200).json(categoryChange)
+} catch (err) {
+    console.log(err)
+}
 });
 
-router.delete('/:id', (req, res) => {
-  // delete a category by its `id` value
+router.delete('/:id', async (req, res) => {
+  try {
+    const categoryDelete = await Category.destroy({
+      where: {
+        id:req.params.id
+      }
+    })
+    if (!categoryDelete) {
+      return res.status(400).json({message: 'Category not found!'})
+   }
+
+  res.status(200).json(categoryDelete)
+} catch (err) {
+  console.log(err)
+}
 });
 
 module.exports = router;
